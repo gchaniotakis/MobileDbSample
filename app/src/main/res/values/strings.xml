@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">DbSample</string>
-    
+    <string name="sets">Sets:</string>
+
     <string-array name="MainActivityList">
         <item>Workouts</item>
         <item>Add Workouts</item>
