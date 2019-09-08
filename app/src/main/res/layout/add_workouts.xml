@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/inputTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/desc"
+        android:id="@+id/inputDesc"
         android:layout_width="228dp"
         android:layout_height="213dp"
         android:layout_marginStart="16dp"
@@ -28,10 +28,10 @@
         android:inputType="textPersonName"
         android:text="Description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/inputTitle" />
 
     <EditText
-        android:id="@+id/sets"
+        android:id="@+id/inputSets"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -42,11 +42,11 @@
         android:text="Sets"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/title"
+        app:layout_constraintStart_toEndOf="@+id/inputTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/inputReps"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -54,10 +54,10 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Reps"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/desc"
-        app:layout_constraintTop_toBottomOf="@+id/sets" />
+        app:layout_constraintStart_toEndOf="@+id/inputDesc"
+        app:layout_constraintTop_toBottomOf="@+id/inputSets" />
 
     <Button
         android:id="@+id/add_button"
@@ -67,5 +67,5 @@
         android:layout_marginTop="8dp"
         android:text="ADD"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/desc" />
+        app:layout_constraintTop_toBottomOf="@+id/inputDesc" />
 </androidx.constraintlayout.widget.ConstraintLayout>

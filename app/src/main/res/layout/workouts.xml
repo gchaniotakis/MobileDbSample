@@ -10,7 +10,7 @@
     android:background="@color/colorPrimaryDark">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/inputTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -45,7 +45,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/sets"
+            android:id="@+id/inputSets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -75,7 +75,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/reps"
+            android:id="@+id/inputReps"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -97,8 +97,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/delete"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/delete"
