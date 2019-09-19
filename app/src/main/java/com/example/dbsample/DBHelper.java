@@ -16,7 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
    static final String KEY_SETS = "Sets";
    static final String KEY_DESC = "Description";
 
-   private static final int DB_VERSION = 1;
+   private static final int DB_VERSION = 2;
    private static final String DB_NAME = "WorkoutDatabase";
 
    private static SQLiteDatabase DB;
@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
        onCreate(sqLiteDatabase);
     }
 
-    public void insertValues(String title, String sets, String reps, String desc)
+     void insertValues(String title, String sets, String reps, String desc)
     {
         ContentValues values = new ContentValues();
 
@@ -58,5 +58,16 @@ public class DBHelper extends SQLiteOpenHelper {
         DB = this.getWritableDatabase();
         DB.insert(TABLE_NAME, null, values);
         Log.d(TAG, "Values inserted");
+    }
+
+    public void deleteWorkout(int deleteID)
+    {
+        String rowID = Integer.toString(deleteID);
+
+        DB = this.getWritableDatabase();
+
+        DB.delete(TABLE_NAME, KEY_ROWID + " = " + rowID, null);
+
+        Log.d(TAG, "Delete Successful");
     }
 }
