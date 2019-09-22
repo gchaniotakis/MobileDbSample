@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,32 +27,53 @@ public class WorkoutList extends ListActivity {
 
         listView = getListView();
 
-        try {
-            DBHelper helper = new DBHelper(this);
+        int layout = android.R.layout.simple_expandable_list_item_1;
 
-            db = helper.getReadableDatabase();
+        String [] findCols = {DBHelper.KEY_ROWID, DBHelper.KEY_TITLE};
 
-            int layout = android.R.layout.simple_expandable_list_item_1;
+        String [] displaysCols ={DBHelper.KEY_TITLE};
 
+        int [] to = {android.R.id.text1};
+
+        cursor = null;
+
+        cursorAdapter = new SimpleCursorAdapter(this, layout,cursor,displaysCols,to,0);
+
+        listView.setAdapter(cursorAdapter);
+
+    }
+
+    @Override
+
+    protected void onResume()
+    {
+        super.onResume();
+
+        cursor = updateCursor();
+
+        cursorAdapter.changeCursor(cursor);
+    }
+
+    private  Cursor updateCursor()
+    {
+        cursor = null;
+
+        try
+        {
+            DBHelper dbHelper  = new DBHelper(this);
+
+            db = dbHelper.getReadableDatabase();
             String [] findCols = {DBHelper.KEY_ROWID, DBHelper.KEY_TITLE};
-            String [] displaysCols ={DBHelper.KEY_TITLE};
 
-            int [] to = {android.R.id.text1};
-
-            cursor = db.query(DBHelper.TABLE_NAME,findCols,null,null,null,null,null);
-
-            cursorAdapter = new SimpleCursorAdapter(this, layout,cursor,displaysCols,to,0);
-
-            listView.setAdapter(cursorAdapter);
-
+            cursor = db.query(DBHelper.TABLE_NAME, findCols, null, null, null ,null, null);
         }
 
-        catch (SQLException e)
+        catch (SQLiteException e)
         {
-            Log.e(TAG, "Something's gone wrong!");
             e.printStackTrace();
         }
 
+        return cursor;
     }
 
     @Override
@@ -65,10 +87,20 @@ public class WorkoutList extends ListActivity {
     }
 
     @Override
-    protected void onDestroy()
+    protected void onPause()
     {
-        super.onDestroy();
-        cursor.close();
-        db.close();
+        super.onPause();
+
+        if(cursor != null)
+        {
+            cursor.close();
+        }
+
+        if (db != null)
+        {
+            db.close();
+        }
+
+
     }
 }
