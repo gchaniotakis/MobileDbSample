@@ -2,9 +2,12 @@ package com.example.dbsample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,19 +18,14 @@ public class MainActivity extends AppCompatActivity {
 
      Cursor cursor;
     SQLiteDatabase db;
+    String [] findCols = {DBHelper.KEY_ROWID, DBHelper.KEY_TITLE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DBHelper helper = new DBHelper(this);
 
-        db = helper.getReadableDatabase();
-        String [] findCols = {DBHelper.KEY_ROWID, DBHelper.KEY_TITLE};
-
-
-         cursor = db.query(DBHelper.TABLE_NAME,findCols,null, null, null, null, null);
 
         ListView list = (ListView)findViewById(R.id.mainList);
 
@@ -57,18 +55,75 @@ public class MainActivity extends AppCompatActivity {
 
                 else if (position == 2)
                 {
+                    if(checkNetworkConnection(getApplicationContext()) == true)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), NetworkList.class);
+                        startActivity(intent);
+                    }
 
+                    else
+                    {
+                        Toast.makeText(MainActivity.this,"Connect to wifi or mobile data", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
         });
     }
 
-    @Override
-    protected void onDestroy()
+    private boolean checkNetworkConnection(Context context)
     {
-        super.onDestroy();
-        cursor.close();
-        db.close();
+        int [] networkTypes = {ConnectivityManager.TYPE_WIFI, ConnectivityManager.TYPE_MOBILE};
+
+        try
+        {
+            ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+
+            for(int networkType: networkTypes)
+            {
+                if(activeNetwork != null && activeNetwork.getType() == networkType)
+                {
+                    return true;
+                }
+            }
+        }
+
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return false;
+    }
+
+
+
+    @Override
+    protected void onResume()
+    {
+        DBHelper helper = new DBHelper(this);
+        db = helper.getReadableDatabase();
+
+        super.onResume();
+        cursor = db.query(DBHelper.TABLE_NAME,findCols,null, null, null, null, null);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        if(cursor != null)
+        {
+            cursor.close();
+        }
+
+        if(db != null)
+        {
+            db.close();
+        }
+
+
     }
 }
