@@ -7,6 +7,8 @@
     <string name="_10_1">10</string>
     <string name="example_description">Example description</string>
     <string name="button">Button</string>
+    <string name="delete">delete</string>
+    <string name="save">save</string>
 
     <string-array name="MainActivityList">
         <item>Workouts</item>
